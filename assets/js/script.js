@@ -76,6 +76,62 @@ function initPortfolio() {
 
 
 
+  // project modal variables
+  const projectItems = document.querySelectorAll("[data-project-item]");
+  const projectModalContainer = document.querySelector("[data-project-modal-container]");
+  const projectModalCloseBtn = document.querySelector("[data-project-modal-close-btn]");
+  const projectOverlay = document.querySelector("[data-project-overlay]");
+  const projectModalImg = document.querySelector("[data-project-modal-img]");
+  const projectModalTitle = document.querySelector("[data-project-modal-title]");
+  const projectModalCategory = document.querySelector("[data-project-modal-category]");
+  const projectModalTech = document.querySelector("[data-project-modal-tech]");
+  const projectModalText = document.querySelector("[data-project-modal-text]");
+  const projectModalLink = document.querySelector("[data-project-modal-link]");
+
+  const projectModalFunc = function () {
+    if (!projectModalContainer) return;
+    projectModalContainer.classList.toggle("active");
+    projectOverlay.classList.toggle("active");
+  }
+
+  if (projectModalContainer) {
+    for (let i = 0; i < projectItems.length; i++) {
+      projectItems[i].addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const title = this.dataset.projectTitle || "";
+        const category = this.dataset.projectCategory || "";
+        const tech = this.dataset.projectTech || "";
+        const description = this.dataset.projectDescription || "";
+        const img = this.dataset.projectImg || "";
+        const url = this.dataset.projectUrl || "";
+
+        projectModalImg.src = img;
+        projectModalImg.alt = title;
+        projectModalTitle.textContent = title;
+        projectModalCategory.textContent = category;
+        projectModalTech.textContent = tech;
+        projectModalText.innerHTML = `<p>${description}</p>`;
+
+        if (url) {
+          projectModalLink.href = url;
+          projectModalLink.style.display = "";
+          projectModalLink.removeAttribute("aria-disabled");
+        } else {
+          projectModalLink.href = "#";
+          projectModalLink.style.display = "none";
+        }
+
+        projectModalFunc();
+      });
+    }
+
+    projectModalCloseBtn.addEventListener("click", projectModalFunc);
+    projectOverlay.addEventListener("click", projectModalFunc);
+  }
+
+
+
   // custom select variables
   const select = document.querySelector("[data-select]");
   const selectItems = document.querySelectorAll("[data-select-item]");
